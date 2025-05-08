@@ -75,6 +75,15 @@ export class PedidoService {
 
     const produtos = produtosOrErro.value;
 
+    for (const produtoId of produtosIds) {
+      const produtoExiste = produtos.some((p) => p.id == produtoId);
+      if (!produtoExiste) {
+        return failure(
+          new BadRequestError(`Produto com ID ${produtoId} não encontrado`),
+        );
+      }
+    }
+
     for (const [id, quantidade] of produtosConsolidados) {
       const produto = produtos.find((p) => p.id == id);
       if (!produto) continue;
